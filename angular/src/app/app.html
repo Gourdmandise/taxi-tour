@@ -1,0 +1,732 @@
+<nav class="top-nav">
+  <div class="nav-inner">
+    <button class="nav-logo" type="button" (click)="goTo('home')">
+      taxi-<span>slx</span>
+    </button>
+
+    <div class="nav-links">
+      <a [class.active]="currentPage === 'home'" (click)="goTo('home')">Accueil</a>
+      <a (click)="scrollSection('services')">Services</a>
+      <a (click)="scrollSection('about')">À propos</a>
+      <a (click)="scrollSection('tarifs')">Tarifs</a>
+    </div>
+
+    <div class="nav-right">
+      <button class="nav-btn" type="button" [class.active]="currentPage === 'contact'" (click)="goTo('contact')">✉️ Nous contacter</button>
+      <button class="nav-btn" type="button" [class.active]="currentPage === 'devis'" (click)="goTo('devis')">💰 Devis</button>
+      <a href="tel:0645670000" class="nav-phone">📞 06 45 67 00 00</a>
+      <button class="nav-cta" type="button" [class.active]="currentPage === 'rdv'" (click)="goTo('rdv')">📅 Prendre RDV</button>
+    </div>
+
+    <button class="mob-menu-btn" type="button" (click)="toggleMobileMenu()" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<div class="mob-nav" [class.open]="mobileMenuOpen">
+  <a (click)="goTo('home')">🏠 Accueil</a>
+  <a (click)="scrollSection('services')">🚖 Services</a>
+  <a (click)="scrollSection('about')">ℹ️ À propos</a>
+  <a (click)="scrollSection('tarifs')">💳 Tarifs</a>
+  <a class="gold" (click)="goTo('contact')">✉️ Nous contacter</a>
+  <a class="gold" (click)="goTo('devis')">💰 Faire un devis</a>
+  <a class="gold" href="tel:0645670000">📞 06 45 67 00 00</a>
+  <a class="gold" (click)="goTo('rdv')">📅 Prendre rendez-vous</a>
+</div>
+
+@if (currentPage === 'home') {
+  <main class="page-shell">
+    <section class="hero" id="top">
+      <div class="hero-bg"></div>
+      <div class="hero-grid"></div>
+
+      <div class="hero-content">
+        <div class="hero-copy">
+          <div class="hero-badge">Disponible 24h/24 · 7j/7</div>
+          <h1>Taxi Saulx<br /><span class="accent">les Chartreux</span></h1>
+          <p class="hero-desc">
+            Votre compagnie de taxi fiable et ponctuelle en Essonne. Aéroports, gares,
+            longues distances et trajets business, de jour comme de nuit.
+          </p>
+
+          <div class="hero-btns">
+            <button class="btn-primary" type="button" (click)="goTo('rdv')">📅 Prendre rendez-vous</button>
+            <button class="btn-secondary" type="button" (click)="goTo('devis')">💰 Demander un devis</button>
+          </div>
+
+          <div class="hero-stats">
+            @for (stat of heroStats; track stat.label) {
+              <div class="hero-stat">
+                <div class="stat-num">{{ stat.value }}</div>
+                <div class="stat-label">{{ stat.label }}</div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-card-title">Estimation rapide</div>
+          <div class="qb-row">
+            <div class="qb-field">
+              <label>Prénom</label>
+              <input type="text" placeholder="Jean" [(ngModel)]="quoteForm.firstName" />
+            </div>
+            <div class="qb-field">
+              <label>Nom</label>
+              <input type="text" placeholder="Dupont" [(ngModel)]="quoteForm.lastName" />
+            </div>
+          </div>
+          <div class="qb-field">
+            <label>Adresse de départ</label>
+            <input type="text" placeholder="Saulx-les-Chartreux, 91…" [(ngModel)]="quoteForm.departure" />
+          </div>
+          <div class="qb-field">
+            <label>Destination</label>
+            <input type="text" placeholder="Orly, Paris, Roissy CDG…" [(ngModel)]="quoteForm.arrival" />
+          </div>
+          <div class="qb-field">
+            <label>Nombre de passagers</label>
+            <select [(ngModel)]="quoteForm.passengers">
+              <option>1 passager</option>
+              <option>2 passagers</option>
+              <option>3 passagers</option>
+              <option>4 passagers</option>
+              <option>5 passagers</option>
+              <option>6 passagers</option>
+            </select>
+          </div>
+          <button class="btn-primary" type="button" (click)="goTo('devis')">Obtenir une estimation →</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="bande">
+      <div class="bande-in">
+        @for (item of bandItems; track item.text) {
+          <div class="bande-item">
+            <span class="bande-ico">{{ item.icon }}</span>
+            <span>{{ item.text }} <b>{{ item.highlight }}</b></span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <section class="section dark-section" id="essonne">
+      <div class="section-inner essonne-grid">
+        <div>
+          <div class="section-tag">Votre taxi en Essonne</div>
+          <h2 class="section-title">
+            Taxi à Brunoy<br />toutes distances,<br /><span class="gold-text">jour comme de nuit</span>
+          </h2>
+          <div class="divider"></div>
+          <p class="section-copy">
+            Taxi Saulx-les-Chartreux est votre compagnie de taxi fiable et ponctuelle en Essonne,
+            disponible 24h/24 et 7j/7, y compris les week-ends et les jours fériés.
+          </p>
+
+          <p class="eyebrow">Un taxi en Essonne fait pour vous</p>
+          <ul class="essonne-list">
+            <li><b>1 à 6 passagers</b> — véhicule Renault Espace 6 places</li>
+            <li><b>1 à 6 bagages</b> — grand coffre à disposition</li>
+            <li><b>Services à bord inclus</b> — Wi-Fi, chargeurs, eau minérale</li>
+            <li><b>Paiement flexible</b> — Espèces, CB, NFC, PayPal, virement</li>
+            <li><b>Estimation du prix en ligne</b> — devis gratuit et sans engagement</li>
+            <li><b>Joignable par téléphone</b> à toute heure, 7j/7</li>
+            <li><b>Joignable par WhatsApp</b> pour devis et réservation rapide</li>
+          </ul>
+
+          <div class="hero-btns">
+            <div class="essonne-tel">📞 06 45 67 00 00</div>
+            <button class="btn-primary" type="button" (click)="goTo('devis')">Faire un devis</button>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="card-title">Votre taxi de confiance en Essonne</div>
+          <div class="card-stack">
+            @for (item of trustCards; track item.title) {
+              <article class="stack-item">
+                <div class="stack-icon">{{ item.icon }}</div>
+                <div>
+                  <h3>{{ item.title }}</h3>
+                  <p>{{ item.description }}</p>
+                </div>
+              </article>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="section-inner">
+        <div class="section-tag">Nos services</div>
+        <h2 class="section-title">Des solutions adaptées à chaque besoin</h2>
+        <div class="divider"></div>
+
+        <div class="services-grid">
+          @for (service of serviceCards; track service.title) {
+            <article class="service-card">
+              <div class="service-icon">{{ service.icon }}</div>
+              <h3>{{ service.title }}</h3>
+              <p>{{ service.description }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark-section" id="about">
+      <div class="section-inner about-grid">
+        <div class="visual-box">🚖</div>
+        <div>
+          <div class="section-tag">À propos de Taxi-SLX</div>
+          <h2 class="section-title">À propos de<br />Taxi Saulx-les-Chartreux</h2>
+          <div class="divider"></div>
+          <p class="section-copy">
+            Taxi Saulx-les-Chartreux met à votre disposition un véhicule moderne, confortable et
+            climatisé, conduit par un chauffeur taxi professionnel et expérimenté.
+          </p>
+
+          <div class="about-features">
+            <div class="feature-item">
+              <span class="feature-dot"></span>
+              <div>
+                <h3>Ponctualité</h3>
+                <p>Votre temps est précieux. Nous nous engageons à arriver à l'heure convenue.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <span class="feature-dot"></span>
+              <div>
+                <h3>Confort et sécurité</h3>
+                <p>Notre véhicule taxi conventionné est équipé pour garantir votre bien-être à bord.</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <span class="feature-dot"></span>
+              <div>
+                <h3>Courtoisie</h3>
+                <p>Formé régulièrement, notre chauffeur est attentionné, expérimenté et à votre écoute.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-btns">
+            <button class="btn-primary" type="button" (click)="goTo('rdv')">Réserver maintenant</button>
+            <a href="tel:0645670000" class="btn-secondary link-button">📞 06 45 67 00 00</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="vehicule">
+      <div class="section-inner vehicule-grid">
+        <div>
+          <div class="section-tag">Notre véhicule</div>
+          <h2 class="section-title">Renault Espace 6 noir<br /><span class="gold-text">jusqu'à 6 places</span></h2>
+          <div class="divider"></div>
+          <p class="section-copy">
+            Un SUV spacieux et moderne, idéal pour tous vos déplacements en Essonne et au-delà.
+          </p>
+
+          <div class="v-specs">
+            @for (spec of vehicleSpecs; track spec.title) {
+              <div class="v-spec">
+                <div class="v-spec-icon">{{ spec.icon }}</div>
+                <div>
+                  <b>{{ spec.title }}</b>
+                  <p>{{ spec.description }}</p>
+                </div>
+              </div>
+            }
+          </div>
+
+          <button class="btn-primary" type="button" (click)="goTo('rdv')">Réserver ce véhicule</button>
+        </div>
+        <div class="visual-box visual-large">🚐</div>
+      </div>
+    </section>
+
+    <section class="banner-cta" id="rdv-banner">
+      <div class="section-inner banner-inner">
+        <h2>Réservez votre taxi Brunoy<br /><span>en quelques clics</span></h2>
+        <p>
+          Réserver avec Taxi SLX est simple et rapide. Pour une demande urgente, appelez-nous
+          directement, disponibles nuit et jour.
+        </p>
+        <div class="hero-btns center-cta">
+          <div class="essonne-tel">📞 06 45 67 00 00</div>
+          <button class="btn-primary" type="button" (click)="goTo('rdv')">Prendre rendez-vous</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tarifs">
+      <div class="section-inner">
+        <div class="section-tag">Nos tarifs</div>
+        <h2 class="section-title">Des tarifs transparents</h2>
+        <div class="divider"></div>
+        <p class="section-copy narrow-copy">
+          Tarifs réglementés et sans surprise. Utilisez notre formulaire de devis pour obtenir une
+          estimation précise et gratuite selon votre trajet exact.
+        </p>
+
+        <div class="tarifs-grid">
+          @for (card of pricingCards; track card.name) {
+            <article class="tarif-card" [class.featured]="card.featured">
+              @if (card.featured) {
+                <div class="tarif-badge">{{ card.badge }}</div>
+              }
+              <div class="tarif-name">{{ card.name }}</div>
+              <div class="tarif-price">{{ card.price }}</div>
+              <div class="tarif-unit">{{ card.unit }}</div>
+              <ul class="tarif-features">
+                @for (feature of card.features; track feature) {
+                  <li>{{ feature }}</li>
+                }
+              </ul>
+              <button class="btn-primary full-btn" type="button" (click)="goTo('devis')">{{ card.cta }}</button>
+            </article>
+          }
+        </div>
+
+        <p class="tarif-note">
+          * Tarifs indicatifs basés sur le barème officiel de l'Essonne. Prix exact confirmé lors du devis gratuit.
+        </p>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <button class="nav-logo footer-logo" type="button" (click)="goTo('home')">taxi-<span>slx</span></button>
+          <p class="footer-desc">
+            Votre compagnie de taxi disponible 24h/24, 7j/7 en Essonne. Confort, ponctualité et
+            sécurité pour tous vos déplacements.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a (click)="scrollSection('services')">Aéroport / Gare</a></li>
+            <li><a (click)="scrollSection('services')">Business</a></li>
+            <li><a (click)="scrollSection('services')">Livraison express</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Liens rapides</h4>
+          <ul>
+            <li><a (click)="goTo('home')">Accueil</a></li>
+            <li><a (click)="scrollSection('about')">À propos</a></li>
+            <li><a (click)="scrollSection('tarifs')">Tarifs</a></li>
+            <li><a (click)="goTo('devis')">Devis gratuit</a></li>
+            <li><a (click)="goTo('rdv')">Prendre rendez-vous</a></li>
+            <li><a (click)="goTo('contact')">Nous contacter</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Nous contacter</h4>
+          <ul>
+            <li><a href="tel:0645670000">📞 06 45 67 00 00</a></li>
+            <li>💬 WhatsApp</li>
+            <li>📍 Saulx-les-Chartreux 91480</li>
+            <li>🕐 24h/24 · 7j/7</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Taxi Saulx-les-Chartreux — Tous droits réservés.</p>
+        <div class="footer-legal">
+          <a href="#">Mentions légales</a>
+          <a href="#">Politique de confidentialité</a>
+          <a href="#">CGU</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+}
+
+@if (currentPage === 'contact') {
+  <main class="page-shell sub-page">
+    <header class="sub-header">
+      <div class="section-inner sub-header-inner">
+        <div class="sub-header-icon">✉️</div>
+        <div>
+          <div class="sub-breadcrumb">Accueil → <span>Nous contacter</span></div>
+          <h1>Nous contacter</h1>
+          <p>Disponibles 24h/24 · 7j/7, par téléphone, WhatsApp ou via notre formulaire.</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="section-inner sub-body contact-page-grid">
+      <div>
+        <div class="section-tag">Coordonnées</div>
+        <h2 class="section-title compact-title">Parlons de votre<br />prochain trajet</h2>
+        <div class="divider"></div>
+        <p class="section-copy">
+          Une question, un trajet urgent ou une information ? Contactez Taxi SLX par téléphone ou
+          WhatsApp pour une réponse immédiate.
+        </p>
+
+        <div class="contact-cards">
+          @for (card of contactCards; track card.title) {
+            <article class="contact-card">
+              <div class="contact-icon">{{ card.icon }}</div>
+              <div>
+                <h3>{{ card.title }}</h3>
+                <p>
+                  {{ card.text }}
+                  @if (card.linkHref) {
+                    <a [href]="card.linkHref">{{ card.linkLabel }}</a>
+                  }
+                </p>
+              </div>
+            </article>
+          }
+        </div>
+
+        <div class="map-box">
+          <span class="map-ico">🗺️</span>
+          <span>Saulx-les-Chartreux, Essonne 91</span>
+        </div>
+      </div>
+
+      <div class="form-card">
+        @if (!contactSent) {
+          <div>
+            <h2>Envoyez-nous un message</h2>
+            <p class="form-sub">Nous vous répondons dans les meilleurs délais, généralement dans l'heure.</p>
+
+            <div class="two-col">
+              <div class="form-group">
+                <label>Prénom *</label>
+                <input type="text" placeholder="Jean" [(ngModel)]="contactForm.firstName" />
+              </div>
+              <div class="form-group">
+                <label>Nom *</label>
+                <input type="text" placeholder="Dupont" [(ngModel)]="contactForm.lastName" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>E-mail *</label>
+              <input type="email" placeholder="jean@exemple.fr" [(ngModel)]="contactForm.email" />
+            </div>
+            <div class="form-group">
+              <label>Téléphone *</label>
+              <input type="tel" placeholder="06 00 00 00 00" [(ngModel)]="contactForm.phone" />
+            </div>
+            <div class="form-group">
+              <label>Objet</label>
+              <select [(ngModel)]="contactForm.subject">
+                <option>Demande de renseignements</option>
+                <option>Réservation / Trajet</option>
+                <option>Demande de devis</option>
+                <option>Réclamation</option>
+                <option>Autre</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Message *</label>
+              <textarea rows="5" placeholder="Votre message…" [(ngModel)]="contactForm.message"></textarea>
+            </div>
+
+            <button class="submit-btn" type="button" (click)="submitContact()">✉️ ENVOYER LE MESSAGE</button>
+          </div>
+        } @else {
+          <div class="success-box">
+            <div class="success-icon">✅</div>
+            <h2>Message envoyé !</h2>
+            <p>
+              Merci {{ contactForm.firstName }}. Votre message a bien été envoyé. Nous vous répondrons au
+              {{ contactForm.phone }}{{ contactForm.email ? ' ou par e-mail à ' + contactForm.email : '' }}.
+            </p>
+            <button class="outline-btn" type="button" (click)="resetContact()">Envoyer un autre message</button>
+          </div>
+        }
+      </div>
+    </div>
+  </main>
+}
+
+@if (currentPage === 'devis') {
+  <main class="page-shell sub-page">
+    <header class="sub-header">
+      <div class="section-inner sub-header-inner">
+        <div class="sub-header-icon">💰</div>
+        <div>
+          <div class="sub-breadcrumb">Accueil → <span>Devis gratuit</span></div>
+          <h1>Faire un devis</h1>
+          <p>Estimation gratuite · Sans engagement · Réponse rapide par téléphone ou e-mail.</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="section-inner sub-body devis-page-grid">
+      <div>
+        <div class="section-tag">Pourquoi un devis ?</div>
+        <div class="perks-list">
+          @for (perk of quotePerks; track perk.title) {
+            <article class="perk-card">
+              <div class="perk-icon">{{ perk.icon }}</div>
+              <div>
+                <h3>{{ perk.title }}</h3>
+                <p>{{ perk.description }}</p>
+              </div>
+            </article>
+          }
+        </div>
+
+        <div class="tarif-preview">
+          <h3>Aperçu tarifaire</h3>
+          @for (row of buildTariffRows(); track row.label) {
+            <div class="tarif-row">
+              <span>{{ row.label }}</span>
+              <strong>{{ row.value }}</strong>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="form-card">
+        @if (!quoteSent) {
+          <div>
+            <h2>Votre demande de devis</h2>
+            <p class="form-sub">Remplissez le formulaire, nous vous contactons rapidement avec une estimation précise.</p>
+
+            <div class="two-col">
+              <div class="form-group">
+                <label>Prénom *</label>
+                <input type="text" placeholder="Jean" [(ngModel)]="quoteForm.firstName" />
+              </div>
+              <div class="form-group">
+                <label>Nom *</label>
+                <input type="text" placeholder="Dupont" [(ngModel)]="quoteForm.lastName" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Point de départ *</label>
+              <input type="text" placeholder="Ex : Saulx-les-Chartreux, 91480…" [(ngModel)]="quoteForm.departure" />
+            </div>
+            <div class="form-group">
+              <label>Point d'arrivée *</label>
+              <input type="text" placeholder="Ex : Aéroport d'Orly, Terminal 2…" [(ngModel)]="quoteForm.arrival" />
+            </div>
+            <div class="two-col">
+              <div class="form-group">
+                <label>Passagers *</label>
+                <select [(ngModel)]="quoteForm.passengers">
+                  <option>1 passager</option>
+                  <option>2 passagers</option>
+                  <option>3 passagers</option>
+                  <option>4 passagers</option>
+                  <option>5 passagers</option>
+                  <option>6 passagers</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Type de trajet</label>
+                <select [(ngModel)]="quoteForm.tripType">
+                  <option>Standard</option>
+                  <option>Aéroport / Gare</option>
+                  <option>Longue distance</option>
+                  <option>Business</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Téléphone *</label>
+              <input type="tel" placeholder="06 00 00 00 00" [(ngModel)]="quoteForm.phone" />
+            </div>
+            <div class="form-group">
+              <label>E-mail</label>
+              <input type="email" placeholder="jean@exemple.fr" [(ngModel)]="quoteForm.email" />
+            </div>
+            <div class="form-group">
+              <label>Informations complémentaires</label>
+              <textarea rows="3" placeholder="Date, heure souhaitée, bagages, remarques…" [(ngModel)]="quoteForm.note"></textarea>
+            </div>
+
+            <button class="submit-btn" type="button" (click)="submitQuote()">💰 OBTENIR MON ESTIMATION GRATUITE</button>
+          </div>
+        } @else {
+          <div class="success-box">
+            <div class="success-icon">📩</div>
+            <h2>Demande envoyée !</h2>
+            <p>
+              Merci {{ quoteForm.firstName }}. Votre demande de devis pour le trajet
+              {{ quoteForm.departure }} → {{ quoteForm.arrival }} ({{ quoteForm.passengers }}) a bien été reçue.
+            </p>
+            <button class="outline-btn" type="button" (click)="resetQuote()">Nouveau devis</button>
+          </div>
+        }
+      </div>
+    </div>
+  </main>
+}
+
+@if (currentPage === 'rdv') {
+  <main class="page-shell sub-page">
+    <header class="sub-header">
+      <div class="section-inner sub-header-inner">
+        <div class="sub-header-icon">📅</div>
+        <div>
+          <div class="sub-breadcrumb">Accueil → <span>Prendre rendez-vous</span></div>
+          <h1>Prendre rendez-vous</h1>
+          <p>Créneaux de rappel de 30 min — notre chauffeur vous contacte à l'heure choisie.</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="section-inner rdv-page-body">
+      <div class="steps-progress">
+        <div class="sp-step" [class.active]="appointmentStep === 1" [class.done]="appointmentStep > 1">
+          <div class="sp-num">1</div>
+          <span>Date</span>
+        </div>
+        <div class="sp-line"></div>
+        <div class="sp-step" [class.active]="appointmentStep === 2" [class.done]="appointmentStep > 2">
+          <div class="sp-num">2</div>
+          <span>Créneau</span>
+        </div>
+        <div class="sp-line"></div>
+        <div class="sp-step" [class.active]="appointmentStep === 3" [class.done]="appointmentStep > 3">
+          <div class="sp-num">3</div>
+          <span>Coordonnées</span>
+        </div>
+        <div class="sp-line"></div>
+        <div class="sp-step" [class.active]="appointmentStep === 4">
+          <div class="sp-num">4</div>
+          <span>Confirmation</span>
+        </div>
+      </div>
+
+      <div class="rdv-card">
+        @if (appointmentStep === 1) {
+          <section>
+            <div class="step-head">
+              <h2>Choisissez une date</h2>
+            </div>
+            <div class="cal-header">
+              <button class="cal-arrow" type="button" (click)="previousMonth()">‹</button>
+              <div class="cal-month-label">{{ calendarLabel }}</div>
+              <button class="cal-arrow" type="button" (click)="nextMonth()">›</button>
+            </div>
+
+            <div class="cal-grid">
+              @for (day of shortDays; track day) {
+                <div class="cal-dow">{{ day }}</div>
+              }
+              @for (cell of calendarCells; track cell.label + cell.dateKey + cell.isBlank) {
+                <button
+                  type="button"
+                  class="cal-day"
+                  [class.dis]="cell.disabled || cell.isBlank"
+                  [class.avail]="!cell.disabled && !cell.isSelected && !cell.isToday && !cell.isBlank"
+                  [class.today-mark]="cell.isToday"
+                  [class.sel]="cell.isSelected"
+                  [disabled]="cell.disabled || cell.isBlank"
+                  (click)="pickDate(cell)">
+                  {{ cell.label }}
+                </button>
+              }
+            </div>
+
+            <p class="cal-legend">Week-ends et jours passés non disponibles · Lundi–Vendredi uniquement</p>
+          </section>
+        }
+
+        @if (appointmentStep === 2) {
+          <section>
+            <div class="step-head compact-step-head">
+              <button class="back-btn" type="button" (click)="goStep(1)">←</button>
+              <h2>Choisissez un créneau</h2>
+            </div>
+            <div class="step-badge">📅 <strong>{{ selectedDateLabel }}</strong></div>
+            <div class="slots-grid">
+              @for (slot of appointmentSlots; track slot) {
+                <button type="button" class="slot" [class.sel]="selectedSlot === slot" (click)="pickSlot(slot)">⏰ {{ slot }}</button>
+              }
+            </div>
+          </section>
+        }
+
+        @if (appointmentStep === 3) {
+          <section>
+            <div class="step-head compact-step-head">
+              <button class="back-btn" type="button" (click)="goStep(2)">←</button>
+              <h2>Vos coordonnées</h2>
+            </div>
+            <div class="step-badge">📅 <strong>{{ selectedDateLabel }}</strong> &nbsp;⏰ <strong>{{ selectedSlot }}</strong></div>
+
+            <div class="rdv-form">
+              <div class="two-col">
+                <div class="form-group">
+                  <label>Prénom *</label>
+                  <input type="text" placeholder="Jean" [(ngModel)]="appointmentForm.firstName" />
+                </div>
+                <div class="form-group">
+                  <label>Nom *</label>
+                  <input type="text" placeholder="Dupont" [(ngModel)]="appointmentForm.lastName" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Téléphone *</label>
+                <input type="tel" placeholder="06 00 00 00 00" [(ngModel)]="appointmentForm.phone" />
+              </div>
+              <div class="form-group">
+                <label>E-mail</label>
+                <input type="email" placeholder="jean@exemple.fr" [(ngModel)]="appointmentForm.email" />
+              </div>
+              <div class="form-group">
+                <label>Objet du rendez-vous</label>
+                <select [(ngModel)]="appointmentForm.subject">
+                  <option>Réservation d'un trajet</option>
+                  <option>Demande de devis détaillée</option>
+                  <option>Information sur les services</option>
+                  <option>Autre</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Notes (optionnel)</label>
+                <textarea rows="3" placeholder="Informations utiles pour préparer le rendez-vous…" [(ngModel)]="appointmentForm.notes"></textarea>
+              </div>
+
+              <button class="submit-btn" type="button" (click)="confirmAppointment()">📅 CONFIRMER LE RENDEZ-VOUS</button>
+            </div>
+          </section>
+        }
+
+        @if (appointmentStep === 4) {
+          <section class="confirmed-box">
+            <div class="success-icon large">✅</div>
+            <h2>Rendez-vous confirmé !</h2>
+            <p>Notre chauffeur vous appellera à l'heure choisie pour discuter de votre trajet. Merci de votre confiance !</p>
+
+            <div class="summary-box">
+              @for (row of buildSummary(); track row.label) {
+                <div class="summary-row">
+                  <span>{{ row.label }}</span>
+                  <strong>{{ row.value }}</strong>
+                </div>
+              }
+            </div>
+
+            <div class="hero-btns center-cta">
+              <button class="btn-primary" type="button" (click)="goTo('home')">← Retour à l'accueil</button>
+              <button class="outline-btn" type="button" (click)="resetAppointment()">Nouveau rendez-vous</button>
+            </div>
+          </section>
+        }
+      </div>
+    </div>
+  </main>
+}

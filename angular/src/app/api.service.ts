@@ -1,0 +1,53 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+
+interface ContactPayload {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+}
+
+interface QuotePayload {
+  firstName: string;
+  lastName: string;
+  departure: string;
+  arrival: string;
+  passengers: string;
+  tripType: string;
+  phone: string;
+  email: string;
+  note: string;
+}
+
+interface AppointmentPayload {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  subject: string;
+  notes: string;
+  selectedDateLabel: string;
+  selectedSlot: string;
+}
+
+@Injectable({ providedIn: 'root' })
+export class ApiService {
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = '/api';
+
+  sendContact(payload: ContactPayload): Promise<void> {
+    return firstValueFrom(this.http.post<void>(`${this.baseUrl}/contact`, payload)).then(() => undefined);
+  }
+
+  sendQuote(payload: QuotePayload): Promise<void> {
+    return firstValueFrom(this.http.post<void>(`${this.baseUrl}/quote`, payload)).then(() => undefined);
+  }
+
+  sendAppointment(payload: AppointmentPayload): Promise<void> {
+    return firstValueFrom(this.http.post<void>(`${this.baseUrl}/appointment`, payload)).then(() => undefined);
+  }
+}
